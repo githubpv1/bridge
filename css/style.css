@@ -1,0 +1,196 @@
+@font-face {
+	font-family: Gilroy;
+	src: url(../fonts/Gilroy-Heavy.woff);
+	font-weight: 900;
+}
+
+@font-face {
+	font-family: ;
+	src: url(../fonts/.woff);
+	font-weight: 00;
+}
+
+@font-face {
+	font-family: ;
+	src: url(../fonts/.woff);
+	font-weight: 00;
+}
+
+@font-face {
+	font-family: ;
+	src: url(../fonts/.woff);
+	font-weight: 00;
+	font-style: italic;
+}
+
+/* reset */
+
+* {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+}
+
+:focus,
+:active {
+	outline: none;
+}
+
+a:focus,
+a:active {
+	outline: none;
+}
+
+a,
+a:visited {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+nav,
+footer,
+header,
+aside,
+main,
+section {
+	display: block;
+}
+
+input::-ms-clear {
+	display: none;
+}
+
+button {
+	cursor: pointer;
+	background-color: transparent;
+}
+
+button::-moz-focus-inner {
+	padding: 0;
+	border: 0;
+}
+
+ul li {
+	list-style: none;
+}
+
+img {
+	vertical-align: top;
+	max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+	font-family: inherit;
+	font-size: inherit;
+}
+
+a,
+button {
+	color: inherit;
+}
+
+button:focus,
+a:focus {
+  /* box-shadow: 0 0 0 3px lightskyblue; */
+}
+
+button:focus.focus,
+a:focus.focus {
+  box-shadow: 0 0 0 3px lightskyblue;
+}
+
+input:focus {
+  box-shadow: 0 0 0 3px #f2f5f8;
+  background-color: #ffffff;
+}
+
+html {
+	height: 100%;
+	width: 100%;
+	font-size: 100%;
+	-webkit-text-size-adjust: 100%;
+	-ms-overflow-style: scrollbar;
+}
+
+body {
+	display: flex;
+  flex-direction: column;
+	height: 100%;
+	width: 100%;
+	font-family: Arial, sans-serif;
+	line-height: 1;
+	font-size: 16px;
+	/* color: #1c293a; */
+}
+
+.icon {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.title_1 {
+	
+}
+.title_2 {
+	
+}
+
+@media (min-width: 768px) {
+  .title_1 {
+    font-size: 50px;
+  }
+
+  .title_2 {
+    margin-bottom: 40px;
+    font-size: 40px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .title_1 {
+    font-size: 60px;
+  }
+
+  .title_2 {
+    font-size: 50px;
+  }
+}
+
+
+/* https://www.toptal.com/developers/css/sprite-generator */
+
+
+/* можно на body если head,footer не шире чем main */
+/* .wrap { */
+.main {
+	flex: 1 0 auto;
+	/* max-width: 1920px; */
+	margin-right: auto;
+	margin-left: auto;
+}
+
+
+
+
+
+
+
+footer {
+	flex: 0 0 auto;
+}
