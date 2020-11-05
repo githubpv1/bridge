@@ -1,5 +1,5 @@
 
-// objectFitImages(); 
+objectFitImages(); 
 
 
 //сбрасываем :focus при клике, но оставляем с клавиатуры
@@ -50,100 +50,105 @@
 }());
 
 
-
-
-/* кнопка плавной прокрутки вверх */
+// ===== navigation =====
 
 (function () {
-  var btn_up = document.querySelector('[data-up]');
+	var nav = document.querySelector('.nav');
+	var overlay = document.querySelector('.overlay');
+	var body = document.querySelector('body');
+	var burger = document.querySelector('.nav__burger');
 
-  function scrollUp() {
-    window.scrollBy(0, -80);
+	burger.addEventListener('click', function (e) {
+		this.classList.toggle('active');
+		nav.classList.toggle('active');
+		overlay.classList.toggle('active');
+		body.classList.toggle('lock');
+	});
 
-    if (window.pageYOffset > 0) {
-      requestAnimationFrame(scrollUp);
-    }
-  }
+	// ===== swipe =====
 
-  var lastScrollPos = 0;
-  var start = true;
+	function swipe(elem) {
 
-  function showBtnUp() {
-    if (start) {
-      start = false;
+		var touchstartX = 0;
+		var touchstartY = 0;
+		var touchendX = 0;
+		var touchendY = 0;
+		var treshold = 10;
 
-      setTimeout(function () {
-        var scrollPos = window.pageYOffset;
+		elem.addEventListener('touchstart', function (event) {
+			touchstartX = event.changedTouches[0].screenX;
+			touchstartY = event.changedTouches[0].screenY;
+		}, false);
 
-        if (scrollPos > 600 && scrollPos < lastScrollPos) {
-          btn_up.classList.add('show');
-        } else {
-          btn_up.classList.remove('show');
-        }
-        lastScrollPos = scrollPos;
-        start = true;
-      }, 200);
-    }
-  }
+		elem.addEventListener('touchend', function (event) {
+			touchendX = event.changedTouches[0].screenX;
+			touchendY = event.changedTouches[0].screenY;
+			handleGesture();
+		}, false);
 
-  if (btn_up) {
-    btn_up.addEventListener('click', scrollUp);
-    document.addEventListener('scroll', showBtnUp);
-  }
+		function handleGesture() {
+			var dx = touchendX - touchstartX;
+			var dy = touchendY - touchstartY;
+			var abs_dx = Math.abs(dx);
+			var abs_dy = Math.abs(dy);
+
+			if (abs_dx > treshold && abs_dx > abs_dy) {
+				if (dx < 0) {
+					elem.dispatchEvent(new CustomEvent("onSwipeLeft"));
+				} else {
+					elem.dispatchEvent(new CustomEvent("onSwipeRight"));
+				}
+			}
+
+			if (abs_dy > treshold && abs_dy > abs_dx) {
+				if (dy < 0) {
+					elem.dispatchEvent(new CustomEvent("onSwipeUp"));
+				} else {
+					elem.dispatchEvent(new CustomEvent("onSwipeDown"));
+				}
+			}
+		}
+	}
+	swipe(nav);
+
+	nav.addEventListener('onSwipeUp', function (e) {
+		burger.classList.remove('active');
+		nav.classList.remove('active');
+		overlay.classList.remove('active');
+		body.classList.remove('lock');
+	});
+
+	// ===== форма поиска =====
+
+	// document.querySelector('.btn_search').onclick = function () {
+	// 	this.classList.toggle('active');
+	// 	document.querySelector('#form_2').classList.toggle('active');
+	// }
 }());
 
 
+// ===== menu drop ===== 
 
-{/* <button class="btn_up" data-up aria-label="наверх">
-  <svg class="icon icon_arrow_up">
-    <use xlink:href="#icon-arrow"></use>
-  </svg>
-</button> */}
+(function () {
 
-// .btn_up {
-//   position: fixed;
-//   right: 20px;
-//   bottom: 20px;
-//   z-index: 5;
-//   display: none;
-//   width: 30px;
-//   height: 30px;
-//   border: 1px solid rgb(236, 188, 56);
-//   border-radius: 5px;
-//   background-color: #72635c;
-// }
+	var btnDrop = document.querySelectorAll('[data-drop]');
+	if (btnDrop) {
+		for (var i = 0; i < btnDrop.length; i++) {
+			btnDrop[i].addEventListener('click', function (e) {
+				this.classList.toggle('active');
+				this.nextElementSibling.classList.toggle('show');
+			});
+		}
+	}
 
-// @media (min-width: 768px) {
-//   .btn_up {
-//     position: absolute;
-//     left: 30px;
-//     display: block;
-//     border: none;
-//     background-color: transparent;
-//   }
-// }
+	//с анимацией jqwery
 
-// .show {
-//   display: block;
-// }
+	// $('[data-drop]').click(function () {
+	//   $(this).toggleClass('active');
+	//   $(this).next().slideToggle(300);
+	// });
 
-// .icon_arrow_up {
-// 	color: #fff;
-// 	width: 30px;
-// 	height: 30px;
-//   transform: rotate(-180deg);
-// }
-
-
-
-
-// document.querySelector('.nav__burger').onclick = function () {
-// 	this.classList.toggle('active');
-// 	document.querySelector('.nav').classList.toggle('active');
-// 	document.querySelector('body').classList.toggle('lock');
-// }
-
-
+}());
 
 
 function scrollMenu(nav, offset, speed, easing) {
@@ -261,11 +266,152 @@ function scrollMenu(nav, offset, speed, easing) {
 		menuControl(menu);
 	});
 };
-
 // scrollMenu('.site__nav'); 
 // scrollMenu('.site__nav', '.fix_menu'); 
 // scrollMenu('.site__nav', '.fix_menu', 2000);
 // scrollMenu('.site__nav', 0, 3000); // без фиксменю и со скоростью
+
+
+// ===== up =====
+
+(function () {
+  var btn_up = document.querySelector('[data-up]');
+
+  function scrollUp() {
+    window.scrollBy(0, -80);
+
+    if (window.pageYOffset > 0) {
+      requestAnimationFrame(scrollUp);
+    }
+  }
+
+  var lastScrollPos = 0;
+  var start = true;
+
+  function showBtnUp() {
+    if (start) {
+      start = false;
+
+      setTimeout(function () {
+        var scrollPos = window.pageYOffset;
+
+        if (scrollPos > 600 && scrollPos < lastScrollPos) {
+          btn_up.classList.add('show');
+        } else {
+          btn_up.classList.remove('show');
+        }
+        lastScrollPos = scrollPos;
+        start = true;
+      }, 200);
+    }
+  }
+
+  if (btn_up) {
+    btn_up.addEventListener('click', scrollUp);
+    document.addEventListener('scroll', showBtnUp);
+  }
+}());
+
+
+// ====== validate and sendform ========
+
+(function () {
+	var form1 = document.getElementById('form_1');
+	var form2 = document.getElementById('form_2');
+	var reg = document.querySelectorAll('input[required]');
+
+	if (reg) {
+		for (var i = 0; i < reg.length; i++) {
+			var elem = reg[i];
+			elem.addEventListener('blur', check);
+			elem.addEventListener('focus', rezet);
+		}
+	}
+
+	if (form1) {
+		form1.addEventListener('submit', validate);
+	}
+	if (form2) {
+		form2.addEventListener('submit', ajaxSend);
+		// form2.addEventListener('submit', validate);
+	}
+
+	function rezet() {
+		this.classList.remove('invalid');
+		var error = this.nextElementSibling;
+		error.innerHTML = '';
+		error.classList.remove('error');
+	}
+
+	function check() {
+		var error = this.nextElementSibling;
+
+		if (!this.validity.valid) {
+			this.classList.add('invalid');
+			error.classList.add('error');
+			error.innerHTML = 'ошибка / неправильный формат';
+			if (this.validity.valueMissing || this.value === '') {
+				error.innerHTML = 'ошибка / заполните поле';
+			}
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
+	function validate(e) {
+		var reg = this.querySelectorAll('input[required]');
+		var agree = this.querySelector('input[name="agree"]');
+		var countError = 0;
+		if (!agree || agree.checked) {
+
+			for (var i = 0; i < reg.length; i++) {
+				var input = reg[i];
+				countError += check.call(input);
+				if (countError) {
+					e.preventDefault();
+				}
+			}
+		} else {
+			e.preventDefault();
+			countError++;
+		}
+		return countError;
+	}
+
+	function ajaxSend(e) {
+		e.preventDefault();
+		var el = this;
+		var error = validate.call(el, e);
+
+		if (error === 0) {
+			this.classList.add('sending');
+			var formData = new FormData(this);
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", this.getAttribute("action"));
+			xhr.send(formData);
+
+			xhr.onloadend = function () {
+				if (xhr.status == 200) {
+					el.classList.remove('sending');
+					el.reset();
+					// alert('Сообщение отправлено.');
+					// alert(xhr.response);  //ответ сервера
+				} else {
+					console.log('Ошибка' + this.status);
+				}
+			}
+		}
+	}
+}());
+
+
+
+
+
+
+
+
 
 
 
