@@ -93,7 +93,8 @@
 
 	button:focus.focus,
 	a:focus.focus {
-		box-shadow: 0 0 0 3px lightskyblue;
+		/* box-shadow: 0 0 0 3px lightskyblue; */
+		box-shadow: white 0 0 0 2px, lightskyblue 0 0 0 5px;
 	}
 
 	input:focus {
@@ -179,11 +180,11 @@
 		font-family: Play;
 		font-weight: 700;
 		color: #20242d;
+		line-height: 1.1;
 	}
 
 	.title_1 {
 		font-size: 34px;
-		line-height: 1.1;
 		text-align: center;
 	}
 
@@ -194,6 +195,7 @@
 	.subtitle {
 		font-weight: 600;
 		color: #4976f6;
+		margin-bottom: 10px;
 	}
 
 	@media (min-width: 768px) {
@@ -203,9 +205,6 @@
 
 		.title_2 {
 			font-size: 34px;
-		}
-		.subtitle {
-			margin-bottom: 10px;
 		}
 	}
 
@@ -217,11 +216,13 @@
 		.title_2 {
 			font-size: 36px;
 		}
+
 		.subtitle {
 			margin-bottom: 20px;
 		}
 	}
 }
+
 
 
 .main {
@@ -1060,6 +1061,23 @@
 }
 
 
+/* ===== pro ===== */
+
+.pro {
+	padding: 40px 0 20px;
+}
+@media (min-width: 768px) {
+	.pro {
+		padding: 80px 0 60px;
+	}
+}
+@media (min-width: 1200px) {
+	.pro {
+		padding: 100px 0 80px;
+	}
+}
+
+
 
 /* ===== we ===== */
 
@@ -1111,6 +1129,7 @@
 .we__list {
 	margin-bottom: 20px;
 }
+
 .we__list li {
 	position: relative;
 	padding-left: 40px;
@@ -1132,21 +1151,26 @@
 
 
 
-.we__text  {
+.we__text {
 	margin-bottom: 20px;
 }
 
 
 .we-right__list {}
+
 .we__icon {}
+
 .icon {}
+
 .we__link {}
+
 .icon_arrow {}
 
 .we-right__list li {
 	display: flex;
 	margin-bottom: 36px;
 }
+
 .we-right__list svg {
 	flex-shrink: 0;
 	width: 40px;
@@ -1155,19 +1179,22 @@
 	margin-right: 20px;
 	color: #70737a;
 }
+
 .we-right__list div {
-color: #f7f7f7;
+	color: #f7f7f7;
 }
+
 .we-right__list span {
 	display: block;
 	margin-bottom: 20px;
 	font-size: 17px;
-line-height: 20px;
-font-weight: 600;
-color: #ff7129;
+	line-height: 20px;
+	font-weight: 600;
+	color: #ff7129;
 }
+
 .we__link {
-margin-left: 60px;
+	margin-left: 60px;
 }
 
 .btn {
@@ -1187,7 +1214,9 @@ margin-left: 60px;
 	display: inline-flex;
 	align-items: center;
 }
-@media (pointer: fine), (min-width:0\0) {
+
+@media (pointer: fine),
+(min-width:0\0) {
 	.btn:hover {
 		background-color: #c9551a;
 	}
@@ -1195,43 +1224,77 @@ margin-left: 60px;
 
 
 /* ===== last ===== */
+
 .last {
-	padding: 40px 0px 20px;
+	padding: 40px 0 20px;
 }
+
 @media (min-width: 768px) {
 	.last {
-		padding: 80px 0px 60px;
-	}
-}
-@media (min-width: 1200px) {
-	.last {
-		padding: 100px 0px 80px;
+		padding: 80px 0 60px;
 	}
 }
 
+@media (min-width: 1200px) {
+	.last {
+		padding: 100px 0 80px;
+	}
+}
+
+
 .last__wrap {
-  max-width: 480px;
-  margin: 0 auto;
+	max-width: 380px;
+	margin: 0 auto;
 }
 
 .last__col {
 	padding-bottom: 20px;
 }
 
-@media (min-width: 540px) {
+.last__wrap_img {
+	position: relative;
+	width: 100%;
+	padding-bottom: 68.4%;
+}
+
+.last__desc {
+	min-height: 150px;
+	position: relative;
+	margin: -65px 30px 0px 30px;
+	padding: 30px 10px 50px 10px;
+	text-align: center;
+	background-color: #f7f7f7;
+	border: 2px solid #ffffff;
+}
+
+
+@media (min-width: 600px) {
 	.last__wrap {
-		/* max-width: 650px; */
+		max-width: 680px;
 	}
 
-	.last__col {
-		/* width: 50%; */
-	}
 	.last__item {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
+		display: flex;
+		align-items: center;
+		/* height: 100%; */
+	}
+
+	.last__wrap_img {
+		flex-shrink: 0;
+		width: 50%;
+		padding-bottom: 38.4%;
+	}
+
+	.last__wrap_desc {
+		width: 50%;
+	}
+
+	.last__desc {
+		min-height: 150px;
+		margin: 30px 0px 0px -30px;
+	}
 }
-}
+
 
 @media (min-width: 992px) {
 	.last__wrap {
@@ -1241,25 +1304,29 @@ margin-left: 60px;
 	.last__col {
 		width: 33.33333%;
 	}
-}
 
-.last__wrap_img {
-	position: relative;
-	width: 100%;
-	/*для flex элемента*/
-	padding-bottom: 68.4%;
-}
+	.last__item {
+		flex-direction: column;
+		height: 100%;
+	}
 
-.last__desc {
-	flex-grow: 1;
-	position: relative;
-	margin: -65px 30px 0px 30px;
-	padding: 30px 10px 50px 10px;
-	text-align: center;
-	background-color: #f7f7f7;
-	border: 2px solid #ffffff;
-}
+	.last__wrap_img {
+		width: 100%;
+		padding-bottom: 68.4%;
+	}
 
+	.last__wrap_desc {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 100%;
+	}
+
+	.last__desc {
+		flex-grow: 1;
+		margin: -65px 30px 0px 30px;
+	}
+}
 
 
 .last__title {
@@ -1290,7 +1357,11 @@ margin-left: 60px;
 
 @media (pointer: fine),
 (min-width:0\0) {
-	.last__link:hover {
+	.last__item:hover .last__wrap_img {
+		box-shadow: 0px 10px 16px 0px rgba(31, 35, 45, 0.4);
+	}
+
+	.last__item:hover .last__link {
 		background-color: #ff7129;
 		box-shadow: 0px 10px 16px 0px rgba(255, 113, 41, 0.4);
 	}
