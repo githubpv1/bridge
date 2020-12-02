@@ -321,5 +321,13 @@ var isKeyClick = true ;
     }
   }; // end replaceDialog  replace - заменить
 
+  // ===== close modal click backdrop =====
+
+  window.clickBtnClose = function (el) {
+    if (el == event.target) {
+    aria.getCurrentDialog().close();
+    }
+  };
+
 }());
 

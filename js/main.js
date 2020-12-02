@@ -8,23 +8,17 @@ objectFitImages();
 	var button = document.querySelectorAll('a, button, label, input');
 
 	var isMouseDown = false;
-	var isLabel = false;
 
 	for (var i = 0; i < button.length; i++) {
 		var el = button[i];
-		el.classList.add('focus');
+		
+		if (el.tagName !== 'LABEL') {
+			el.classList.add('focus');
+		}
 
 		el.addEventListener('mousedown', function () {
 			this.classList.remove('focus');
 			isMouseDown = true;
-			if (this.tagName == 'LABEL') {
-				isLabel = true;
-			}
-		});
-		el.addEventListener('mouseup', function () {
-			if (this.tagName == 'LABEL') {
-				isLabel = false;
-			}
 		});
 		el.addEventListener('keydown', function (e) {
 			if (e.key === "Tab") {
@@ -37,14 +31,7 @@ objectFitImages();
 			}
 		});
 		el.addEventListener('blur', function () {
-			if (this.type === 'checkbox') {
-				if (!isLabel) {
-					var check = document.querySelector('[for="' + this.id + '"]');
-					check.classList.add('focus');
-				}
-			} else {
-				this.classList.add('focus');
-			}
+					this.classList.add('focus');
 		});
 	}
 }());
@@ -58,72 +45,16 @@ objectFitImages();
 	var body = document.querySelector('body');
 	var burger = document.querySelector('.nav__burger');
 
-	burger.addEventListener('click', function (e) {
+	burger.addEventListener('click', toggleMenu);
+
+	function toggleMenu() {
 		this.classList.toggle('active');
 		nav.classList.toggle('active');
 		overlay.classList.toggle('active');
 		body.classList.toggle('lock');
-	});
-
-	// ===== swipe =====
-
-	function swipe(elem) {
-
-		var touchstartX = 0;
-		var touchstartY = 0;
-		var touchendX = 0;
-		var touchendY = 0;
-		var treshold = 10;
-
-		elem.addEventListener('touchstart', function (event) {
-			touchstartX = event.changedTouches[0].screenX;
-			touchstartY = event.changedTouches[0].screenY;
-		}, false);
-
-		elem.addEventListener('touchend', function (event) {
-			touchendX = event.changedTouches[0].screenX;
-			touchendY = event.changedTouches[0].screenY;
-			handleGesture();
-		}, false);
-
-		function handleGesture() {
-			var dx = touchendX - touchstartX;
-			var dy = touchendY - touchstartY;
-			var abs_dx = Math.abs(dx);
-			var abs_dy = Math.abs(dy);
-
-			if (abs_dx > treshold && abs_dx > abs_dy) {
-				if (dx < 0) {
-					elem.dispatchEvent(new CustomEvent("onSwipeLeft"));
-				} else {
-					elem.dispatchEvent(new CustomEvent("onSwipeRight"));
-				}
-			}
-
-			if (abs_dy > treshold && abs_dy > abs_dx) {
-				if (dy < 0) {
-					elem.dispatchEvent(new CustomEvent("onSwipeUp"));
-				} else {
-					elem.dispatchEvent(new CustomEvent("onSwipeDown"));
-				}
-			}
-		}
+		swipe(nav);
 	}
-	swipe(nav);
 
-	nav.addEventListener('onSwipeUp', function (e) {
-		burger.classList.remove('active');
-		nav.classList.remove('active');
-		overlay.classList.remove('active');
-		body.classList.remove('lock');
-	});
-
-	// ===== форма поиска =====
-
-	// document.querySelector('.btn_search').onclick = function () {
-	// 	this.classList.toggle('active');
-	// 	document.querySelector('#form_2').classList.toggle('active');
-	// }
 }());
 
 
@@ -134,19 +65,28 @@ objectFitImages();
 	var btnDrop = document.querySelectorAll('[data-drop]');
 	if (btnDrop) {
 		for (var i = 0; i < btnDrop.length; i++) {
+
+			var link = btnDrop[i].parentElement.querySelector('a');
+			var label = '<span class="visuallyhidden">открыть подменю для“' + link.text + '”</span>';
+			btnDrop[i].insertAdjacentHTML('beforeend', label);
+
 			btnDrop[i].addEventListener('click', function (e) {
-				this.classList.toggle('active');
-				this.nextElementSibling.classList.toggle('show');
+				if (this.classList.contains('active')) {
+					this.classList.remove('active');
+					this.nextElementSibling.classList.remove('show');
+					this.setAttribute('aria-expanded', "false");
+					this.parentElement.querySelector('a').setAttribute('aria-expanded', "false");
+				} else {
+					this.classList.add('active');
+					this.nextElementSibling.classList.add('show');
+					this.setAttribute('aria-expanded', "true");
+					this.parentElement.querySelector('a').setAttribute('aria-expanded', "true");
+				}
 			});
 		}
 	}
 
-	//с анимацией jqwery
 
-	// $('[data-drop]').click(function () {
-	//   $(this).toggleClass('active');
-	//   $(this).next().slideToggle(300);
-	// });
 
 }());
 
@@ -313,11 +253,12 @@ function scrollMenu(nav, offset, speed, easing) {
 }());
 
 
-// ====== validate and sendform ========
+// ====== validate and send form ========
 
 (function () {
 	var form1 = document.getElementById('form_1');
 	var form2 = document.getElementById('form_2');
+	var form3 = document.getElementById('form_3');
 	var reg = document.querySelectorAll('input[required]');
 
 	if (reg) {
@@ -335,20 +276,22 @@ function scrollMenu(nav, offset, speed, easing) {
 		form2.addEventListener('submit', ajaxSend);
 		// form2.addEventListener('submit', validate);
 	}
+	if (form3) {
+		// form3.addEventListener('submit', ajaxSend);
+		form3.addEventListener('submit', validate);
+	}
 
 	function rezet() {
+		var error = this.parentElement.querySelector('.error');
 		this.classList.remove('invalid');
-		var error = this.nextElementSibling;
 		error.innerHTML = '';
-		error.classList.remove('error');
 	}
 
 	function check() {
-		var error = this.nextElementSibling;
+		var error = this.parentElement.querySelector('.error');
 
 		if (!this.validity.valid) {
 			this.classList.add('invalid');
-			error.classList.add('error');
 			error.innerHTML = 'ошибка / неправильный формат';
 			if (this.validity.valueMissing || this.value === '') {
 				error.innerHTML = 'ошибка / заполните поле';
@@ -406,326 +349,254 @@ function scrollMenu(nav, offset, speed, easing) {
 }());
 
 
-// ===== swipe =====
-
-function swipe(elem) {
-
-	var touchstartX = 0;
-	var touchstartY = 0;
-	var touchendX = 0;
-	var touchendY = 0;
-	var treshold = 10;
 
 
-	elem.addEventListener('touchstart', function (event) {
-		touchstartX = event.changedTouches[0].screenX;
-		touchstartY = event.changedTouches[0].screenY;
-	}, false);
-
-	elem.addEventListener('touchend', function (event) {
-		touchendX = event.changedTouches[0].screenX;
-		touchendY = event.changedTouches[0].screenY;
-		handleGesture();
-	}, false);
-
-	function handleGesture() {
-		var dx = touchendX - touchstartX;
-		var dy = touchendY - touchstartY;
-		var abs_dx = Math.abs(dx);
-		var abs_dy = Math.abs(dy);
 
 
-		if (abs_dx > treshold && abs_dx > abs_dy) {
-			if (dx < 0) {
-				elem.dispatchEvent(new CustomEvent("onSwipeLeft"));
-			} else {
-				elem.dispatchEvent(new CustomEvent("onSwipeRight"));
-			}
-		}
-
-		if (abs_dy > treshold && abs_dy > abs_dx) {
-			if (dy < 0) {
-				elem.dispatchEvent(new CustomEvent("onSwipeUp"));
-			} else {
-				elem.dispatchEvent(new CustomEvent("onSwipeDown"));
-			}
-		}
-	}
-}
-// var menu = document.querySelector('.nav');
-// swipe(menu);
-// menu.addEventListener("onSwipeUp", close);
 
 
 
 //====== swiper we =========
 
-var mySwiper = new Swiper('.__swiper', {
-	// spaceBetween: 20,
-	loop: true,
-	autoHeight: true,
-	grabCursor: true,
-	effect: 'fade',
-	fadeEffect: {
-		crossFade: true
-	},
-	navigation: {
-		nextEl: '.__next_slide',
-		prevEl: '.__prev_slide',
-	},
-	pagination: {
-		el: '.__swiper-pagination',
-		clickable: true,
-	},
-	breakpoints: {
-		768: {
-			// pagination: ' ',
-		}
-	}
-});
+// var mySwiper = new Swiper('.__swiper', {
+// 	// spaceBetween: 20,
+// 	loop: true,
+// 	autoHeight: true,
+// 	grabCursor: true,
+// 	effect: 'fade',
+// 	fadeEffect: {
+// 		crossFade: true
+// 	},
+// 	navigation: {
+// 		nextEl: '.__next_slide',
+// 		prevEl: '.__prev_slide',
+// 	},
+// 	pagination: {
+// 		el: '.__swiper-pagination',
+// 		clickable: true,
+// 	},
+// 	breakpoints: {
+// 		768: {
+// 			// pagination: ' ',
+// 		}
+// 	}
+// });
 	
 
+// ===== tabs =====
 
-/*
- *   This content is licensed according to the W3C Software License at
- *   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
- */
 (function () {
-  var tablist = document.querySelectorAll('[role="tablist"]')[0];
-  var tabs;
-  var panels;
+	var tablist = document.querySelectorAll('[role="tablist"]')[0];
+	var tabs = document.querySelectorAll('[role="tab"]');
+	var panels = document.querySelectorAll('[role="tabpanel"]');
 
-  generateArrays();
+	function activateTab(tab, setFocus) {
+		setFocus = setFocus || true;
+		deactivateTabs();
 
-  function generateArrays () {
-    tabs = document.querySelectorAll('[role="tab"]');
-    panels = document.querySelectorAll('[role="tabpanel"]');
-  };
+		tab.removeAttribute('tabindex');
+		tab.setAttribute('aria-selected', 'true');
+		tab.classList.add('active');
 
-  // For easy reference
-  var keys = {
-    end: 35,
-    home: 36,
-    left: 37,
-    up: 38,
-    right: 39,
-    down: 40,
-    delete: 46,
-    enter: 13,
-    space: 32
-  };
+		var controls = tab.getAttribute('aria-controls');
 
-  // Add or subtract depending on key pressed
-  var direction = {
-    37: -1,
-    38: -1,
-    39: 1,
-    40: 1
-  };
+		document.getElementById(controls).removeAttribute('hidden');
 
-  // Bind listeners
-  for (i = 0; i < tabs.length; ++i) {
-    addListeners(i);
-  };
+		if (setFocus) {
+			tab.focus();
+		};
+	};
 
-  function addListeners (index) {
-    tabs[index].addEventListener('click', clickEventListener);
-    tabs[index].addEventListener('keydown', keydownEventListener);
-    tabs[index].addEventListener('keyup', keyupEventListener);
+	function deactivateTabs() {
+		for (t = 0; t < tabs.length; t++) {
+			tabs[t].setAttribute('tabindex', '-1');
+			tabs[t].setAttribute('aria-selected', 'false');
+			tabs[t].classList.remove('active');
+			tabs[t].removeEventListener('focus', focusEventHandler);
+		};
 
-    // Build an array with all tabs (<button>s) in it
-    tabs[index].index = index;
-  };
+		for (p = 0; p < panels.length; p++) {
+			panels[p].setAttribute('hidden', 'hidden');
+		};
+	};
 
-  // When a tab is clicked, activateTab is fired to activate it
-  function clickEventListener (event) {
-    var tab = event.target;
-    activateTab(tab, false);
-  };
+	var keys = {
+		end: 35,
+		home: 36,
+		left: 37,
+		up: 38,
+		right: 39,
+		down: 40
+	};
 
-  // Handle keydown on tabs
-  function keydownEventListener (event) {
-    var key = event.keyCode;
+	var direction = {
+		37: -1,
+		38: -1,
+		39: 1,
+		40: 1
+	};
 
-    switch (key) {
-      case keys.end:
-        event.preventDefault();
-        // Activate last tab
-        focusLastTab();
-        break;
-      case keys.home:
-        event.preventDefault();
-        // Activate first tab
-        focusFirstTab();
-        break;
+	for (i = 0; i < tabs.length; ++i) {
+		addListeners(i);
+	};
 
-      // Up and down are in keydown
-      // because we need to prevent page scroll >:)
-      case keys.up:
-      case keys.down:
-        determineOrientation(event);
-        break;
-    };
-  };
+	function addListeners(index) {
+		tabs[index].addEventListener('click', clickEventListener);
+		tabs[index].addEventListener('keydown', keydownEventListener);
+		tabs[index].addEventListener('keyup', keyupEventListener);
 
-  // Handle keyup on tabs
-  function keyupEventListener (event) {
-    var key = event.keyCode;
+		tabs[index].index = index;
+	};
 
-    switch (key) {
-      case keys.left:
-      case keys.right:
-        determineOrientation(event);
-        break;
-      case keys.delete:
-        determineDeletable(event);
-        break;
-      case keys.enter:
-      case keys.space:
-        activateTab(event.target);
-        break;
-    };
-  };
+	function clickEventListener(event) {
+		var tab = event.target;
+		activateTab(tab, false);
+	};
 
-  // When a tablistвЂ™s aria-orientation is set to vertical,
-  // only up and down arrow should function.
-  // In all other cases only left and right arrow function.
-  function determineOrientation (event) {
-    var key = event.keyCode;
-    var vertical = tablist.getAttribute('aria-orientation') == 'vertical';
-    var proceed = false;
+	function keydownEventListener(event) {
+		var key = event.keyCode;
 
-    if (vertical) {
-      if (key === keys.up || key === keys.down) {
-        event.preventDefault();
-        proceed = true;
-      };
-    }
-    else {
-      if (key === keys.left || key === keys.right) {
-        proceed = true;
-      };
-    };
+		switch (key) {
+			case keys.end:
+				event.preventDefault();
+				activateTab(tabs[tabs.length - 1]);
+				break;
+			case keys.home:
+				event.preventDefault();
+				activateTab(tabs[0]);
+				break;
 
-    if (proceed) {
-      switchTabOnArrowPress(event);
-    };
-  };
+			case keys.up:
+			case keys.down:
+				determineOrientation(event);
+				break;
+		};
+	};
 
-  // Either focus the next, previous, first, or last tab
-  // depending on key pressed
-  function switchTabOnArrowPress (event) {
-    var pressed = event.keyCode;
+	function keyupEventListener(event) {
+		var key = event.keyCode;
 
-    if (direction[pressed]) {
-      var target = event.target;
-      if (target.index !== undefined) {
-        if (tabs[target.index + direction[pressed]]) {
-          tabs[target.index + direction[pressed]].focus();
-        }
-        else if (pressed === keys.left || pressed === keys.up) {
-          focusLastTab();
-        }
-        else if (pressed === keys.right || pressed == keys.down) {
-          focusFirstTab();
-        };
-      };
-    };
-  };
+		switch (key) {
+			case keys.left:
+			case keys.right:
+				determineOrientation(event);
+				break;
+		};
+	};
 
-  // Activates any given tab panel
-  function activateTab (tab, setFocus) {
-    setFocus = setFocus || true;
-    // Deactivate all other tabs
-    deactivateTabs();
+	function determineOrientation(event) {
+		var key = event.keyCode;
+		var vertical = tablist.getAttribute('aria-orientation') == 'vertical';
+		var proceed = false;
 
-    // Remove tabindex attribute
-    tab.removeAttribute('tabindex');
+		if (vertical) {
+			if (key === keys.up || key === keys.down) {
+				event.preventDefault();
+				proceed = true;
+			};
+		} else {
+			if (key === keys.left || key === keys.right) {
+				proceed = true;
+			};
+		};
 
-    // Set the tab as selected
-    tab.setAttribute('aria-selected', 'true');
+		if (proceed) {
+			switchTabOnArrowPress(event);
+		};
+	};
 
-    // Get the value of aria-controls (which is an ID)
-    var controls = tab.getAttribute('aria-controls');
+	function switchTabOnArrowPress(event) {
+		var pressed = event.keyCode;
 
-    // Remove hidden attribute from tab panel to make it visible
-    document.getElementById(controls).removeAttribute('hidden');
+		for (x = 0; x < tabs.length; x++) {
+			tabs[x].addEventListener('focus', focusEventHandler);
+		};
 
-    // Set focus when required
-    if (setFocus) {
-      tab.focus();
-    };
-  };
+		if (direction[pressed]) {
+			var target = event.target;
+			if (target.index !== undefined) {
+				if (tabs[target.index + direction[pressed]]) {
+					tabs[target.index + direction[pressed]].focus();
+				} else if (pressed === keys.left || pressed === keys.up) {
+					focusLastTab();
+				} else if (pressed === keys.right || pressed == keys.down) {
+					focusFirstTab();
+				};
+			};
+		};
+	};
 
-  // Deactivate all tabs and tab panels
-  function deactivateTabs () {
-    for (t = 0; t < tabs.length; t++) {
-      tabs[t].setAttribute('tabindex', '-1');
-      tabs[t].setAttribute('aria-selected', 'false');
-    };
+	function focusFirstTab() {
+		tabs[0].focus();
+	};
 
-    for (p = 0; p < panels.length; p++) {
-      panels[p].setAttribute('hidden', 'hidden');
-    };
-  };
+	function focusLastTab() {
+		tabs[tabs.length - 1].focus();
+	};
 
-  // Make a guess
-  function focusFirstTab () {
-    tabs[0].focus();
-  };
+	function focusEventHandler(event) {
+		var target = event.target;
 
-  // Make a guess
-  function focusLastTab () {
-    tabs[tabs.length - 1].focus();
-  };
+		setTimeout(checkTabFocus, 30, target);
+	};
 
-  // Detect if a tab is deletable
-  function determineDeletable (event) {
-    target = event.target;
+	function checkTabFocus(target) {
+		focused = document.activeElement;
 
-    if (target.getAttribute('data-deletable') !== null) {
-      // Delete target tab
-      deleteTab(event, target);
-
-      // Update arrays related to tabs widget
-      generateArrays();
-
-      // Activate the closest tab to the one that was just deleted
-      if (target.index - 1 < 0) {
-        activateTab(tabs[0]);
-      }
-      else {
-        activateTab(tabs[target.index - 1]);
-      };
-    };
-  };
-
-  // Deletes a tab and its panel
-  function deleteTab (event) {
-    var target = event.target;
-    var panel = document.getElementById(target.getAttribute('aria-controls'));
-
-    target.parentElement.removeChild(target);
-    panel.parentElement.removeChild(panel);
-  };
-
-  // Determine whether there should be a delay
-  // when user navigates with the arrow keys
-  function determineDelay () {
-    var hasDelay = tablist.hasAttribute('data-delay');
-    var delay = 0;
-
-    if (hasDelay) {
-      var delayValue = tablist.getAttribute('data-delay');
-      if (delayValue) {
-        delay = delayValue;
-      }
-      else {
-        // If no value is specified, default to 300ms
-        delay = 300;
-      };
-    };
-
-    return delay;
-  };
+		if (target === focused) {
+			activateTab(target, false);
+		};
+	};
 }());
+
+
+
+function initMap() {
+	var myPos = new google.maps.LatLng(55.730613, 37.593276);
+	var elem = document.getElementById('map');
+
+	if (elem) {
+		var map = new google.maps.Map(elem, {
+			center: myPos, 
+			zoom: 15, // 0 - 21
+			disableDefaultUI: true, 
+		});
+	}
+
+	
+	var marker = new google.maps.Marker({
+		position: myPos, 
+		map: map, 
+		icon: "img/pin.png" ,           
+	});
+
+
+}
+// google.maps.event.addDomListener(window, "load", initMap);
+
+
+
+
+// ===== выбрано файлов =====
+
+(function () {
+
+	// выбрано файлов имя или кол-во
+
+	var fileName = document.getElementById('file-name');
+	var inputFile = document.getElementById('input_file');
+	inputFile.addEventListener('change', countFile);
+
+	function countFile() {
+		files = this.files;
+
+		if (files.length == 1) {
+			fileName.innerHTML = 'Имя файла: ' + files[0].name;
+		} else {
+			fileName.innerHTML = 'Выбрано ' + files.length + ' Файла(ов)';
+		}
+	}
+}());
+
+
+
