@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ru">             
 <head>
@@ -6,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="keywords" content="">
   <meta name="description" content="сайт компании МостДорСтрой">
-	<title>bridge</title>
+	<title>Главная</title>
 	<link href="https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap" rel="stylesheet"> 
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
 
@@ -16,37 +17,37 @@
 	<link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#5bbad5">
 	<meta name="theme-color" content="#ffffff">
 
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/style.min.css">
 	
 </head>
 <body>
-	
+
+<div class="wrapper">
 <header class="head">
 	<div class="head__container container">
 		<div class="head__row">
-			<div class="logo">
-				<svg class="icon logo__icon" role="img" aria-label="логотип"><use xlink:href="icon.svg#icon-logo_1"></use></svg>
-				<span class="logo__text">МостДор<span>Строй</span></span>
-				<a class="logo__link" href="/" title="на главную"></a>
-			</div>
+<div class="logo logo--head">
+	<svg class="icon logo__icon" role="img" aria-label="логотип"><use xlink:href="icon.svg#icon-logo_1"></use></svg>
+	<span class="logo__text">МостДор<span>Строй</span></span>
+	<a class="logo__link" href="/" title="на главную"></a>
+</div>
 	
 			<div class="nav">
 				<nav class="nav__wrap">
 					<ul class="menu">
 						<li>
-							<a href="#">Услуги</a>
+							<a href="services.html">Услуги</a>
 							<button data-drop class="menu__arrow"></button>
 							<ul class="menu_drop">
-								<li><a href="#">Капитальный ремонт и реконструкция</a></li>
-								<li><a href="services.html">Генеральный подрядчик</a></li>
+								<li><a href="servic.html">Генеральный подрядчик</a></li>
 								<li><a href="#">Капитальный</a></li>
 								<li><a href="#">Капитальный</a></li>
 							</ul>
 						</li>
-						<li><a href="#">О компании</a></li>
-						<li><a href="#">Объекты</a></li>
-						<li><a href="#">Блог</a></li>
-						<li><a href="#">Контакты</a></li>
+						<li><a href="about.html">О компании</a></li>
+						<li><a href="objects.html">Объекты</a></li>
+						<li><a href="blog.html">Блог</a></li>
+						<li><a href="contacts.html">Контакты</a></li>
 					</ul>
 				</nav>
 	
@@ -109,7 +110,8 @@
 	</div>	
 </header>
 
-<div class="main" role="main">
+<main class="main">
+
 
 	<section class="home">
 		<div class="home__top">
@@ -245,15 +247,15 @@
 			<div class="we-right__container">
 				<ul class="we-right__list">
 					<li>
-						<svg class="we__icon icon" aria-hidden="true"><use xlink:href="icon.svg#icon-gestures"></use></svg>
+						<svg class="icon" aria-hidden="true"><use xlink:href="icon.svg#icon-gestures"></use></svg>
 						<div><span>Профессионализм</span> За годы работы нам посчастливилось поработать с огромным числом клиентов.</div>
 					</li>
 					<li>
-						<svg class="we__icon icon" aria-hidden="true"><use xlink:href="icon.svg#icon-people"></use></svg>
+						<svg class="icon" aria-hidden="true"><use xlink:href="icon.svg#icon-people"></use></svg>
 						<div><span>Мастерство</span> Качественные услуги начинаются с опытного и внимательного исполнителя.</div>
 					</li>
 					<li>
-						<svg class="we__icon icon" aria-hidden="true"><use xlink:href="icon.svg#icon-clock"></use></svg>
+						<svg class="icon" aria-hidden="true"><use xlink:href="icon.svg#icon-clock"></use></svg>
 						<div><span>Своевременность</span> Мы эффективно выполняем проекты точно в срок.</div>
 					</li>
 				</ul>
@@ -268,7 +270,7 @@
 	<section class="tabs">
 		<div class="container">
 
-			<div class="title__col col-12">
+			<div class="title__col tabs__title col-12">
 				<div class="subtitle">Что мы предлагаем</div>
 				<h2 class="title_2">Профессиональные услуги</h2>
 			</div>
@@ -333,76 +335,76 @@
 	</section>
 
 
-	<!-- <section class="last">
-		<div class="container">
-			<div class="title__col">
-				<div class="subtitle">Лучшие работы</div>
-				<h2 class="title_2">Последние объекты</h2>
-			</div>
+	<section class="last">
+  <div class="container">
+    <div class="title__col">
+      <div class="subtitle">Лучшие работы</div>
+      <h2 class="title_2">Последние объекты</h2>
+    </div>
 
-			<div class="last__wrap">
-				<div class="row">
-					
-					<div class="last__col">
-						<div class="last__item">
-							<div class="last__wrap_img">
-								<img class="img_cover" src="img/img_8.jpg" alt="">
-							</div>
-							<div class="last__wrap_desc">
-								<div class="last__desc">
-									<div class="subtitle">Эскизный проект</div>
-									<h3 class="last__title">Административное здание</h3>
-								</div>
-								<a class="last__link" href="#!" aria-label="последние работы">
-									<svg class="icon_arrow icon">
-									<use xlink:href="icon.svg#icon-arrow"></use></svg>
-								</a>
-							</div>
-						</div>
-					</div> 
+    <div class="last__wrap">
+      <div class="row">
+        
+        <div class="last__col">
+          <div class="last__item">
+            <div class="last__wrap_img">
+              <img class="img_cover" src="img/img_8.jpg" alt="">
+            </div>
+            <div class="last__wrap_desc">
+              <div class="last__desc">
+                <div class="subtitle">Эскизный проект</div>
+                <h3 class="last__title">Административное здание</h3>
+              </div>
+              <a class="last__link" href="object.html" aria-label="последние работы">
+                <svg class="icon_arrow icon">
+                <use xlink:href="icon.svg#icon-arrow"></use></svg>
+              </a>
+            </div>
+          </div>
+        </div> 
 
-					<div class="last__col">
-						<div class="last__item">
-							<div class="last__wrap_img">
-								<img class="img_cover" src="img/img_7.jpg" alt="">
-							</div>
-							<div class="last__wrap_desc">
-								<div class="last__desc">
-									<div class="subtitle">Реконструкция</div>
-									<h3 class="last__title">Реконструкция здания по адресу Фабричная 17</h3>
-								</div>
-								<a class="last__link" href="#!" aria-label="последние работы">
-									<svg class="icon_arrow icon">
-									<use xlink:href="icon.svg#icon-arrow"></use></svg>
-								</a>
-							</div>
-						</div>
-					</div> 
+        <div class="last__col">
+          <div class="last__item">
+            <div class="last__wrap_img">
+              <img class="img_cover" src="img/img_7.jpg" alt="">
+            </div>
+            <div class="last__wrap_desc">
+              <div class="last__desc">
+                <div class="subtitle">Реконструкция</div>
+                <h3 class="last__title">Реконструкция здания по адресу Фабричная 17</h3>
+              </div>
+              <a class="last__link" href="object.html" aria-label="последние работы">
+                <svg class="icon_arrow icon">
+                <use xlink:href="icon.svg#icon-arrow"></use></svg>
+              </a>
+            </div>
+          </div>
+        </div> 
 
-					<div class="last__col">
-						<div class="last__item">
-							<div class="last__wrap_img">
-								<img class="img_cover" src="img/img_9.jpg" alt="">
-							</div>
-							<div class="last__wrap_desc">
-								<div class="last__desc">
-									<div class="subtitle">Ремонтные работы</div>
-									<h3 class="last__title">Институт водного транспорта</h2>
-								</div>
-								<a class="last__link" href="#!" aria-label="последние работы">
-									<svg class="icon_arrow icon">
-									<use xlink:href="icon.svg#icon-arrow"></use></svg>
-								</a>
-							</div>
-						</div>
-					</div> 
+        <div class="last__col">
+          <div class="last__item">
+            <div class="last__wrap_img">
+              <img class="img_cover" src="img/img_9.jpg" alt="">
+            </div>
+            <div class="last__wrap_desc">
+              <div class="last__desc">
+                <div class="subtitle">Ремонтные работы</div>
+                <h3 class="last__title">Институт водного транспорта</h2>
+              </div>
+              <a class="last__link" href="object.html" aria-label="последние работы">
+                <svg class="icon_arrow icon">
+                <use xlink:href="icon.svg#icon-arrow"></use></svg>
+              </a>
+            </div>
+          </div>
+        </div> 
 
-				</div>
-			</div>
-		</div>
-	</section> -->
+      </div>
+    </div>
+  </div>
+</section>
 
-
+	
 	<section class="query">
 		<div class="container">
 			<div class="query__body">
@@ -447,8 +449,7 @@
 		</div>
 	</section>
 
-</div>
-
+</main>
 
 
 <footer class="footer">
@@ -535,10 +536,7 @@
 	</div>
 </footer>
 
-<!-- modal  -->
-<button onclick="openDialog('dialog-', this)">
-  Педагоги
-</button>
+</div><!-- wrapper -->	
 
 <div class="dialog-backdrop" onclick="clickBtnClose(this)">
 <div role="dialog" id="dialog-" aria-labelledby="dialog_label" aria-modal="true" class="hidden">
@@ -590,17 +588,11 @@
 </button>
 
 
-<!--   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-<!-- <script src="js/jquery.min.js"></script> -->
-<script src="js/ofi.min.js"></script> 
-<!-- <script src="js/swiper.min.js"></script> -->
-<!-- <script src="js/accordion.js"></script> -->
-<script src="js/utils.js"></script>
-<script src="js/dialog.js"></script>
-<script src="js/svgxuse.js"></script>
-<!-- <script src="https://maps.googleapis.com/maps/api/js?key="></script> -->
+<script src="https://maps.googleapis.com/maps/api/js?key="></script>
+ 
+<script src="js/main.min.js"></script>
 
-<script src="js/main.js"></script>
 
 </body>
 </html>
+
